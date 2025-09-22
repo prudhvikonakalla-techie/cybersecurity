@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Professional Nmap Scan Report</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fb;
+      color: #222;
+      margin: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h1 {
+      color: #305080;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    h2 {
+      color: #208080;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+    section {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px #ddd;
+      padding: 24px;
+      margin-bottom: 22px;
+    }
+    img {
+      max-width: 90vw;
+      height: auto;
+      border-radius: 5px;
+      box-shadow: 0 2px 12px #ccc;
+      margin-bottom: 15px;
+      display: block;
+    }
+    .image-block {
+      margin-bottom: 30px;
+    }
+    p {
+      font-size: 1.02rem;
+      line-height: 1.6;
+      color: #333;
+    }
+    ul {
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+    ul li {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Nmap Network Scan Report</h1>
+    <p>Report generated: September 22, 2025</p>
+  </header>
+
+  <section>
+    <h2>Scan Overview</h2>
+    <p>This report presents the results from multiple in-depth Nmap scans performed on targeted network hosts within the 10.80.121.0/24 subnet. The scans aimed to identify open ports, services, versions, host information, and potential vulnerabilities.</p>
+  </section>
+
+  <section>
+    <h2>Host 10.80.121.223 Detailed Results</h2>
+    <div class="image-block">
+      <img src="1.jpg" alt="Scan 1: Service and port enumeration for host 10.80.121.223"/>
+      <p><strong>Explanation:</strong> This scan shows multiple open TCP ports on the host 10.80.121.223, notably Windows RPC-related ports (135, 49664-49670), NetBIOS (139), SMB (445), and VMware authentication services (902, 912). The services indicate a Windows environment augmented with VMware infrastructure components. This host supports remote communication protocols, and exposed RPC services can be a target for exploitation.</p>
+    </div>
+    <div class="image-block">
+      <img src="2.jpg" alt="Scan 2: NetBIOS and SMB scripting results for host 10.80.121.223"/>
+      <p><strong>Explanation:</strong> This screenshot highlights additional scripted checks against port 139 showing NetBIOS details such as the hostname "ETERNALTRUTH" and NetBIOS MAC address. It also confirms SMB signing is enabled but optional, presenting a security consideration since enforcing SMB signing helps prevent man-in-the-middle attacks.</p>
+    </div>
+    <div class="image-block">
+      <img src="5.jpg" alt="Scan 5: Quick port enumeration on host 10.80.121.223"/>
+      <p><strong>Explanation:</strong> A concise scan focused on ports 135 and 139, confirming Microsoft Windows RPC and NetBIOS services with accompanying security script results. The limited scan duration signifies quick verification of service availability for critical ports.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Host 10.80.121.241 Detailed Results</h2>
+    <div class="image-block">
+      <img src="6.jpg" alt="Scan 6: Domain port scan on host 10.80.121.241"/>
+      <p><strong>Explanation:</strong> Host 10.80.121.241 exposes port 53 running dnsmasq 2.51, typically a DNS caching service. The MAC address is unknown, and the OS is not identified precisely, which could indicate a non-Windows device or limited probe response. DNS ports being open and unfiltered require monitoring to avoid DNS-related attacks.</p>
+    </div>
+    <div class="image-block">
+      <img src="3.jpg" alt="Scan 3: Bulk scan results across several hosts in 10.80.121.0/24"/>
+      <p><strong>Explanation:</strong> This scan covers the subnet 10.80.121.0/24 and reports open services on several hosts within the range, confirming the first two hosts’ service states and the third host having all ports closed or ignored. It provides a broader network perspective indicating low exposure on some hosts.</p>
+    </div>
+    <div class="image-block">
+      <img src="4.jpg" alt="Scan 4: SYN scan focusing on host 10.80.121.241"/>
+      <p><strong>Explanation:</strong> Focused SYN scan on 10.80.121.241 showing open DNS port 53 with no other significant ports open, supporting the previous findings and reinforcing the host’s role as a DNS server or related network device.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Summary and Security Recommendations</h2>
+    <ul>
+      <li>For <em>host 10.80.121.223</em>, audit and minimize exposed RPC and SMB ports; enforce SMB signing rigorously and apply timely patches against Windows RPC vulnerabilities.</li>
+      <li><em>Host 10.80.121.241</em> should be monitored for DNS traffic anomalies, and appropriate network restrictions applied to protect the DNS service.</li>
+      <li><em>Hosts with closed ports</em> indicate good exposure control but require continued monitoring and periodic scans.</li>
+      <li>Firewall rules should be updated to limit exposure of critical ports and services across the network.</li>
+      <li>Regular vulnerability assessments and scans are recommended to track changes and quickly identify new risks.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Conclusion</h2>
+    <p>This detailed Nmap scan report delivers a comprehensive view of the network services and their security posture. Immediate action on exposed critical service ports and continuous monitoring will strengthen network defenses and reduce attack surfaces effectively.</p>
+  </section>
+</body>
+</html>
