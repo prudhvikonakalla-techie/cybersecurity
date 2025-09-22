@@ -1,0 +1,118 @@
+# Nmap Scan Results Summary Report
+
+**Date:** 2025-09-22  
+**Author:** Prudhvi Konakalla  
+
+---
+
+## 1. Overview
+Several scans were performed from a Kali Linux environment against IP addresses in the **10.80.121.x/24** subnet.  
+Each scan utilized service/version detection, host discovery bypass, specified port ranges, and Nmap Scripting Engine (NSE) scripts for enhanced information gathering.
+
+---
+
+## 2. Scan Results
+
+### Host: 10.80.121.241 (Single-port scan, DNS)
+**Command Executed:**  
+```
+nmap -sV -Pn -sA -p 53 -sC 10.80.121.241
+```
+
+**Findings:**
+- Port **53/tcp (domain)**: Open, dnsmasq 2.51 detected  
+- **MAC Address:** 0E:85:E1:13:2D:3E (Unknown vendor)  
+- **Service Info:** Unfiltered domain; host up  
+
+---
+
+### Subnet: 10.80.121.19/24 (Multi-host, multiple services)
+**Command Executed:**  
+```
+nmap -sV -Pn 10.80.121.19/24
+```
+
+**Findings:**  
+
+- **10.80.121.223**
+  - 135/tcp: Microsoft Windows RPC  
+  - 139/tcp: Microsoft Windows netbios-ssn  
+  - 445/tcp: Microsoft Windows microsoft-ds  
+  - 902/tcp: VMware Authentication Daemon  
+  - 912/tcp: VMware Authentication Daemon  
+  - **MAC:** 38:D5:7A:36:77:AB (Cloud Network Technology Singapore PTE.)  
+  - **OS:** Windows (CPE: cpe:/o:microsoft:windows)  
+
+- **10.80.121.241**
+  - 53/tcp: Open domain, dnsmasq 2.51  
+  - **MAC:** 0E:85:E1:13:2D:3E  
+
+- **10.80.121.19**
+  - All ports in ignored states (host up)  
+
+---
+
+### Host: 10.80.121.223 (NetBIOS/SMB & RPC Enumeration)
+**Commands Executed:**  
+```
+nmap -sV -Pn -sC -sS -p 139 10.80.121.223
+nmap -sV -Pn -sC -sS -p 135 10.80.121.223
+```
+
+**Findings:**  
+
+- **Port 139/tcp**  
+  - Microsoft Windows netbios-ssn  
+  - SMB time: 2025-09-22T06:11:10  
+  - NetBIOS name: ETERNALTRUTH  
+  - MAC: 38:D5:7A:36:77:AB  
+  - Service Info: Windows (Cloud Network Tech SGP)  
+  - Clock skew: -3s  
+
+- **Port 135/tcp**  
+  - Microsoft Windows RPC  
+  - NetBIOS name: ETERNALTRUTH  
+  - MAC: 38:D5:7A:36:77:AB  
+  - Service Info: Windows (Cloud Network Tech SGP)  
+
+---
+
+### Host: 10.80.121.241 (Port Scan All)
+**Command Executed:**  
+```
+nmap -sV -Pn 10.80.121.241 -sS -p-
+```
+
+**Findings:**
+- Port 53/tcp: Open, dnsmasq 2.51  
+- All other 65,534 TCP ports closed (reset)  
+
+---
+
+### Host: 10.80.121.223 (Full Port Scan, SYN Stealth)
+**Command Executed:**  
+```
+nmap -sV -Pn -sS -p- -D RND:10 10.80.121.223
+```
+
+**Findings:**
+- Numerous Microsoft RPC ports open (135/tcp, 139/tcp, 445/tcp, etc.)  
+- 902/tcp and 912/tcp: VMware Authentication Daemon  
+- MAC: 38:D5:7A:36:77:AB (Cloud Network Technology Singapore PTE.)  
+- OS: Windows (CPE: cpe:/o:microsoft:windows)  
+
+---
+
+## 3. Key Observations
+- The Windows host **"ETERNALTRUTH" (10.80.121.223)** exposes **NetBIOS/SMB (139/tcp, 445/tcp)**, **RPC (135/tcp)**, and VMware-related ports (**902/tcp, 912/tcp**).  
+- DNS services on **10.80.121.241** run **dnsmasq 2.51**, with port 53/tcp as the only visible service.  
+- NSE scripts confirm that **SMB signing is enabled but not required**.  
+- Clock skew of **-3s** suggests minimal tampering or virtualization delay.  
+- MAC addresses indicate **cloud infrastructure** for 10.80.121.223 and **unknown local hardware** for 10.80.121.241.  
+
+---
+
+## 4. Conclusion
+The scans revealed significant exposure on **10.80.121.223** due to multiple open Windows RPC/SMB services, which may be leveraged for further enumeration or exploitation.  
+The DNS host **10.80.121.241** appears minimally exposed, only running **dnsmasq 2.51 on port 53/tcp**.  
+Further in-depth penetration testing is recommended against **ETERNALTRUTH (10.80.121.223)** to evaluate the security posture of its RPC and SMB services.
